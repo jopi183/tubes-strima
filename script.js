@@ -169,7 +169,7 @@ function prosesKalimat(text) {
       }
     }
   
-    return { idx: -1, count}; // No match found
+    return { idx: -1, count}; // data tidak ditemukan
   }
   
   function computeLPSArray(pattern, M, lps) {
