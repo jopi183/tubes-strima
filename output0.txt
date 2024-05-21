@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+</head>
+<body>
+    <h1>Hello GAESSS AING MAUNGGG</h1>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+</head>
+<body>
+    <h1>Hello GAESSS AING MAUNGGG</h1>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+</head>
+<body>
+    <h1>Hello GAESSS AING MAUNGGG</h1>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JoPi NE: JoPi News Extractor </title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="top-bar">
+        <span><ion-icon name="call-outline"></ion-icon>+6283151628288 (JoPi)</span>
+        <ul>
+            <li><a href="https://www.facebook.com/pipinem123/"><ion-icon name="logo-facebook"></ion-icon></a></li>
+            <li><a href="https://twitter.com/jopisan183"><ion-icon name="logo-twitter"></ion-icon></a></li>
+            <li><a href="https://instagram.com/joshuapinem"><ion-icon name="logo-instagram"></ion-icon></a></li>
+        </ul>
+    </div>
+<nav>
+    <div class="logo">
+        
+        <a href="#"><img src="/img/JoPiNE.png"/>
+        </a>
+    </div>
+    <div class="toggle">
+        <a href ="#"><ion-icon name="menu-outline"></ion-icon></a>
+    </div>
+    <a href ="#"></a>
+    <ul class="menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Info</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(function(){
+        $(".toggle").on("click",function(){
+            if ($(".menu").hasClass("active")){
+                $(".menu").removeClass("active");
+                $(this).find("a").html("");
+                $(this).find("a").html("<ion-icon name='menu-outline'></ion-icon>")
+            }else{
+                $(".menu").addClass("active");
+                $(this).find("a").html("<ion-icon name='close-outline'></ion-icon>")
+            }
+        })
+    })
+</script>
+    <div class="logo2">
+        <a href="#"><img src="/img/JOPI NE RED.png"/></a>
+    </div>
+    <a name = "home"></a>
+    <h1 class = "center">
+        EKSTRAKSI INFORMASI PADA ARTIKEL BERITA ANDA
+    </h1>
+    <form action="#results" method="POST" id = "boxshadow">
+        <p>
+            Select file(s):&ensp;
+            <input type="file" id="uploadBtn" name="file">
+            <input type ="text" id ="fileContent" hidden>
+            <label for="uploadBtn"><i class="fa-solid fa-upload"></i>Upload File</label>
+            <span id="fileName"></span>
+        </p>
+                  
+           
+        <input type="file" name="filename" multiple placeholder="Enter a keyword">
+        <p>Keyword &ensp;&ensp;: &ensp;
+        <input type="text" id="keyword" name="keyword" placeholder="Enter a keyword">
+        <br/>
+        </p>
+
+        <p>Select Algorithm :</p>
+        <label class = "container">Brute Force
+            <input type="radio" id="bf" name = "algorithm" value="bf">
+            <span class="checkmark"></span>
+        </label>
+
+        <label class = "container">Knuth-Morris-Pratt
+            <input type="radio" id="kmp" name = "algorithm" value="kmp">
+            <span class="checkmark"></span>
+        </label>
+        <button class = "button1" id ="submit" value="submit"><b>EXTRACT!</b></button>
+    </form>
+    <!--Untuk output-->
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1 class = "center">Hasil Ekstraksi Informasi Berita</h1>
+            <div class="modal-box-container">
+                <div id="input-info" class="modal-box"></div>
+                <div id="output-info" class="modal-box"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    
+    <!--Untuk penjelasan KMP vs BF-->
+    <h1 class = "center">
+        Brute force VS Knuth-Morris-Pratt
+    </h1>
+    <h1 class="center">
+        In News Extractor
+    </h1>
+    <div class="cover">
+        <div class="box">
+            <h2>Brute force</h2>
+            <img src="/img/BF2.jpeg"/>
+            <p>
+                Brute  Force bergerak secara linear melalui teks, membandingkan 
+                pola dengan setiap substring pada teks. Jika cocok, pola ditemukan. 
+                Kelemahannya, Brute Force tidak efisien untuk teks panjang karena banyak
+                perbandingan yang tidak perlu
+            </p>
+        </div>
+        <div class="box">
+            <h2>
+                News Extractor (NE)
+            </h2>
+            <img src="/img/NEWS.png"/>
+            <p>
+                NE merupakan proses dalam mengidentifikasi dan mengekstraksi informasi 
+                penting dari artikel berita. Informasi ini dapat berupa entitas seperti orang,
+                tempat, organisasi, tanggal, dan peristiwa. Dalam hal ini, kita memanfaatkan
+                2 algoritma string matching pattern dalam melakukan ekstraksi informasi berita.
+            </p>  
+        </div>
+        <div class="box">
+            <h2>Knuth-Morris-Pratt</h2>
+            <img src="/img/KMP2.png"/>
+            <p>Knuth-Morris-Pratt menggunakan tabel preproses yang berisi informasi tentang
+                pola. Saat bergerak melalui teks, KMP menggunakan tabel ini untuk melompat ke
+                bagian teks yang mungkin cocok dengan pola, sehingga lebih efisien dan mengurangi
+                perbandingan yang tidak perlu.
+            </p>  
+        </div>
+    </div>
+   
+    <!--Biodata Jopi-->
+
+
+</body>
+</html>
