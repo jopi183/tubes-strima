@@ -6,7 +6,7 @@ function handleUpload() {
   uploadBtn.addEventListener('change', function () {
     const selectedFile = this.files[0];
 
-    // Basic file validation
+    //Melakukan validasi file (kalau bukan file txt maka ditolak)
     if (!selectedFile || !selectedFile.type.match('text/plain')) {
       alert('TOLONG MASUKKAN FILE YANG VALID!!!');
       return;
@@ -23,12 +23,12 @@ function handleUpload() {
     reader.readAsText(selectedFile);
     
   });
-  const form = document.getElementById('submit'); // Assuming this is your form element ID
+  const form = document.getElementById('submit'); 
 
   form.addEventListener('click', (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); 
     const keywordInput = document.getElementById('keyword').value.trim();
-    const algoritma = document.querySelector('input[name="algorithm"]:checked').value;
+    const algoritma = document.querySelector('input[name="algorithm"]:checked').value; //
     console.log(algoritma)
     if (!keywordInput || !algoritma){
       alert('MASUKKAN DATA SESUAI DENGAN YANG DIMINTA !!!!');
@@ -63,6 +63,10 @@ function newsExtractor(fileContent, keywordInput, method) {
 }
 
 function showResults(keywordInput, contentLength, count, isiBerita, waktu) {
+  /*
+  Fungsi untuk menampilkan hasil, setelah menekan tombol "Submit", sehingga akan menampilkan
+  informasi innput dan informasi output
+  */ 
   const resultContainer = document.getElementById('result-container');
   const inputInfo = document.getElementById('input-info');
   const outputInfo = document.getElementById('output-info');
@@ -84,7 +88,8 @@ function showResults(keywordInput, contentLength, count, isiBerita, waktu) {
       </tr>
     </table>
   `;
-
+  
+  //Jika pola tidak ditemukan
   if (isiBerita === '') {
     outputInfo.innerHTML = `
       <h2>Informasi Output</h2>
@@ -92,6 +97,8 @@ function showResults(keywordInput, contentLength, count, isiBerita, waktu) {
       <p>Maaf, kata kunci <b>${keywordInput}</b> tidak ditemukan dalam berita</p>
       <p>Kode dieksekusi selama <b>${waktu} milisekon</b></p>
     `;
+  
+    //Jika pola ditemukan
   } else {
     outputInfo.innerHTML = `
       <h2>Informasi Output</h2>
@@ -120,6 +127,9 @@ function showResults(keywordInput, contentLength, count, isiBerita, waktu) {
 }
 
 function prosesKalimat(text) {
+  /*Fungsi prosesKalimat, digunakan untuk melakukan preprocessing pada data
+  dengan cara mengubah semua string menjadi huruf kecil
+  */
   const words = text.toLowerCase().trim();
   
   return words;
@@ -127,22 +137,23 @@ function prosesKalimat(text) {
   
 
   function KMPSearch(text, pattern) {
-    // Preprocess the text (optional, depending on `prosesKalimat` logic)
+    // Melakukan preprocessing kalimat (mengubah kalimat menjadi huruf kecil)
     text = prosesKalimat(text)
     const M = pattern.length;
     const N = text.length;
   
-    // Create lps array to store longest proper prefix which is also a suffix
+    // Buatlah sebuah array kosong dengan ukuran yang sama dengan string input. 
+    //Array ini akan menyimpan nilai LPS untuk setiap karakter dalam string input.
     const lps = new Array(M).fill(0);
   
-    // Preprocess the pattern (calculate lps[] array)
+    // Preproses polanya (calculate lps[] array)
     computeLPSArray(pattern, M, lps);
   
-    let count = 0; // Count of pattern occurrences
-    let idx = -1;  // Starting index of the first occurrence
+    let count = 0; // Counter untuk menghitung pola
+    let idx = -1;  // idx diinisialisasi -1
   
-    let i = 0; // index for txt[]
-    let j = 0; // index for pat[]
+    let i = 0; // index untuk text
+    let j = 0; // index untuk pattern[]
     while (i < N) {
       if (pattern[j] === text[i]) {
         count++;
@@ -151,12 +162,12 @@ function prosesKalimat(text) {
       }
   
       if (j === M) {
-        // Found a match
-        idx = i - j; // Starting index
-        return { idx, count }; // Return both index and count
+        // Mencari pola
+        idx = i - j; // Start index
+        return { idx, count }; // Mengembalikan index dan count
       }
   
-      // Mismatch after j matches
+      // Mismatch setelah dilakukan j pencocokan 
       if (i < N && pattern[j] !== text[i]) {
         count++;
         // Do not match lps[0..lps[j-1]] characters,
@@ -197,88 +208,87 @@ function prosesKalimat(text) {
   }
 
   function bruteForce(textInput, patternInput) {
-    // Preprocess the text (optional, depending on `prosesKalimat` logic)
+    // Melakukan preprocessing kalimat (mengubah kalimat menjadi huruf kecil)
     textInput = prosesKalimat(textInput)
-    // Assuming `prosesKalimat` handles text cleaning
   
+    //Menginisialisasi nilai panjang text dan panjang pattern
     const sLen = textInput.length;
     const pLen = patternInput.length;
     let i = 0;
     let found = false;
-    let count = 0; // Count of comparisons
+    let count = 0; // Menghitung berapa banyak pencocokan yang dilakukan
   
     for (i = 0; i <= sLen - pLen; i++) {
-      count++; // Increment for outer loop comparison
+      count++; // Increment untuk outer loop
       let j = 0
       for (j = 0; j < pLen; j++) {
-        count++; // Increment for inner loop comparison
+        count++; // Increment untuk inner loop 
         if (textInput[i + j] !== patternInput[j]) {
           break;
         }
       }
-      if (j == pLen) { // Reached end of pattern, pattern found
+      if (j == pLen) { // Sampai akhir dari pattern, found true
         found = true;
         break;
       }
     }
     if (!found) {
-      return { i: -1, count }; // Return -1 for index and keep comparison count
+      return { i: -1, count }; // Return -1 dan count jika pattern tidak ditemukan
     } else {
-      return { i, count }; // Return original data if pattern found
+      return { i, count }; // Return index pola ditemukan dan banyak pencocokan
     }
   }
 
   
   function NEKMP(text, pattern) {
-    // Find the index of the pattern using KMP
+    //Mencari index menggunakan NEKMP
     const { idx: foundIndex } = KMPSearch(text, pattern);  
-    // If pattern is found, extract the sentence
+    // Jika pattern ditemukan, pola diekstrak
     if (foundIndex !== -1) {
       let startIndex = foundIndex;
       let endIndex = foundIndex + pattern.length;
   
-      // Find the previous period or punctuation
+      // Cari tanda titik sebelum pola
       while (startIndex > 0 && text[startIndex - 1] !== '.') {
         startIndex--;
       }
   
-      // Find the period or punctuation after the pattern
+      // Cari tanda titik setelah pola
       while (endIndex < text.length && text[endIndex] !== '.') {
         endIndex++;
       }
   
-      // Extract and return the sentence
+      // Kembalikan string hasil ekstraksi pola
       return text.substring(startIndex, endIndex);
     } else {
-      // Pattern not found, return empty string
+      // Kembalikan string kosong jika pola tidak ditemukan
       return "";
     }
   }
   
-  // Function to find sentences containing a pattern using brute force
   function NEBF(text, pattern) {
-    // Find the index of the pattern using brute force
+    // Cari indeks dari pola menggunakan brute force
     const {i : foundIndex} = bruteForce(text, pattern);
 
-    // If pattern is found, extract the sentence
+    // Jika pattern ditemukan, lakukan ekstraksi pola
     if (foundIndex !== -1) {
       let startIndex = foundIndex;
       let endIndex = foundIndex + pattern.length;
   
-      // Find the previous period or punctuation
+      // Cari tanda titik sebelum pola
       while (startIndex > 0 && text[startIndex - 1] !== '.') {
         startIndex--;
       }
   
-      // Find the period or punctuation after the pattern
+      // Cari tanda titik setelah pola
       while (endIndex < text.length && text[endIndex] !== '.') {
         endIndex++;
       }
   
-      // Extract and return the sentence
+      // Kembalikan string hasil ekstraksi pola
       return text.substring(startIndex, endIndex);
     } else {
-      // Pattern not found, return empty string
+      // Kembalikan string kosong jika pola tidak ditemukan
       return "";
     }
   }
